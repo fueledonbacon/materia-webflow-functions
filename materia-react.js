@@ -140,7 +140,7 @@ class Todo extends React.Component {
     }
 
     async onMint() {
-        const { materiaMintable, materiaPrimaMintable, ethersjs, materiaContract } = this.state;
+        const { materiaMintable, materiaPrimaMintable, ethersjs, materiaContract, address } = this.state;
         console.log("materiaMintable", materiaMintable)
         console.log("materiaPrimaMintable", materiaPrimaMintable)
         console.log(await getSignature(ethersjs, materiaContract, materiaMintable, address))
@@ -232,9 +232,10 @@ function mockRedeemed(resources) {
 
 async function getSignature(provider, materia, tokens, address) {
     const privateKey = "af82397882dc0330cb648a577330dcfd80e996e29f800dfd1db3905d4b478dd4"
-    const privateSigner = new ethers.Wallet(privateKey, provider);
+    const wallet = new ethers.Wallet(privateKey);
+    const signer = new ethers.Signer(wallet.address, provider)
     let messageHash = await materia.messageHash(address, tokens);
-    let signature = privateSigner.signMessage(utils.arrayify(messageHash));
+    let signature = signer.signMessage(utils.arrayify(messageHash));
     return signature;
 
 }
