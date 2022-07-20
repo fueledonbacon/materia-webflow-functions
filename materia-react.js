@@ -140,10 +140,10 @@ class Todo extends React.Component {
     }
 
     async onMint() {
-        const { materiaMintable, materiaPrimaMintable } = this.state;
+        const { materiaMintable, materiaPrimaMintable, ethersjs, materiaContract } = this.state;
         console.log("materiaMintable", materiaMintable)
         console.log("materiaPrimaMintable", materiaPrimaMintable)
-        console.log(await getSignature(materiaMintable))
+        console.log(await getSignature(ethersjs, materiaContract, materiaMintable, address))
         
     }
 
