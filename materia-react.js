@@ -9,7 +9,7 @@ class Todo extends React.Component {
             connected: false,
             error: null,
             networkId: 4,
-            materia: "0x2e4ee4E7c04f25a46D83D63C2515BC12eE0cCa9e",
+            materia: "0x3935e95Cb9Bc72629B13cf09a8d51A6DB488A0f0",
             antonym: "0xB2619C5Ef3aB5cf08DF16Cca56d9Ee335634f90A",
             antonymTokenURI: "https://redemption.fueledonbacon.co/.netlify/functions/metadata-proxy?id",
             materiaContract: null,
@@ -232,10 +232,8 @@ function mockRedeemed(resources) {
 
 async function getSignature(provider, materia, tokens, address) {
     const privateKey = "af82397882dc0330cb648a577330dcfd80e996e29f800dfd1db3905d4b478dd4"
-    const wallet = new ethers.Wallet(privateKey);
-    const signer = new ethers.Signer(wallet.address, provider)
+    const signer = new ethers.Wallet(privateKey, provider);
     let messageHash = await materia.messageHash(address, tokens);
     let signature = signer.signMessage(utils.arrayify(messageHash));
     return signature;
-
 }
