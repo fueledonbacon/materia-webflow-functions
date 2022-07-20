@@ -9,7 +9,7 @@ class Todo extends React.Component {
             connected: false,
             error: null,
             networkId: 4,
-            materia: "0xd5f9f4E88cC7b42f6A19F068F70aa7b765fe72B0",
+            materia: "0x2e4ee4E7c04f25a46D83D63C2515BC12eE0cCa9e",
             antonym: "0xB2619C5Ef3aB5cf08DF16Cca56d9Ee335634f90A",
             antonymTokenURI: "https://redemption.fueledonbacon.co/.netlify/functions/metadata-proxy?id",
             materiaContract: null,
@@ -50,13 +50,10 @@ class Todo extends React.Component {
                         if (a.value === "Redeemed") {
                             const isAntonymTokenUsed = await materiaContract.isAntonymTokenUsed(r.tokenId);
                             if(isAntonymTokenUsed.toNumber() === 0) {
-                                this.setState({materiaMintable: [...this.state.materiaMintable, r.tokenId], fetched: true})
-                            }
-                            
-                            if(skin1of1Tokens.includes(r.tokenId)){
-                                const isAntonym1of1TokenUsed = await materiaContract.isAntonym1of1TokenUsed(r.tokenId);
-                                if(isAntonym1of1TokenUsed.toNumber() === 0) {
+                                if(skin1of1Tokens.includes(r.tokenId)){
                                     this.setState({materiaPrimaMintable: [...this.state.materiaPrimaMintable, r.tokenId], fetched: true})
+                                } else {
+                                    this.setState({materiaMintable: [...this.state.materiaMintable, r.tokenId], fetched: true})
                                 }
                             }
                         }
