@@ -142,10 +142,16 @@ class Todo extends React.Component {
     async onMint() {
         const { materiaMintable, materiaPrimaMintable, ethersjs, materiaContract, address } = this.state;
         const tokens = [...materiaMintable, ...materiaPrimaMintable].sort((a, b) => a -b)
-        const sig = await getSignature(ethersjs, materiaContract, tokens, address)
-        let tx = await materiaContract.mint(tokens, sig);
-        tx = await tx.wait()
-        console.log(tx)
+
+        try {
+            const sig = await getSignature(ethersjs, materiaContract, tokens, address)
+            let tx = await materiaContract.mint(tokens, sig);
+            tx = await tx.wait()
+            console.log(tx)
+        } catch(e) {
+            this.setState({error: readError(e)})
+        }
+        
         
     }
 
