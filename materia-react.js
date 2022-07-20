@@ -41,6 +41,7 @@ class Todo extends React.Component {
                     fetchRes.tokenId = tokenId;
                     resources.push(fetchRes)
                 }))
+                console.log(tokens)
                 //TODO: remove this function for production
                 resources = mockRedeemed(resources);
 
