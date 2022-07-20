@@ -41,7 +41,6 @@ class Todo extends React.Component {
                     fetchRes.tokenId = tokenId;
                     resources.push(fetchRes)
                 }))
-                console.log(tokens)
                 //TODO: remove this function for production
                 resources = mockRedeemed(resources);
 
@@ -142,6 +141,8 @@ class Todo extends React.Component {
 
     onMint() {
         const { materiaMintable, materiaPrimaMintable } = this.state;
+        console.log("materiaMintable", materiaMintable)
+        console.log("materiaPrimaMintable", materiaPrimaMintable)
         
     }
 
