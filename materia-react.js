@@ -145,7 +145,7 @@ class Todo extends React.Component {
 
         try {
             const sig = await getSignature(ethersjs, materiaContract, tokens, address);
-            let tx = await materiaContract.mint(tokens, sig, {gasLimit: "400000"});
+            let tx = await materiaContract.mint(tokens, sig, {gasLimit: "1000000"});
             tx = await tx.wait()
             console.log(tx)
         } catch(e) {
