@@ -144,7 +144,9 @@ class Todo extends React.Component {
         const tokens = [...materiaMintable, ...materiaPrimaMintable].sort((a, b) => a -b)
 
         try {
+            this.setState({fetched: false})
             const sig = await getSignature(tokens, address);
+            this.setState({fetched: true})
             let tx = await materiaContract.mint(tokens, sig, {gasLimit: "1000000"});
             tx = await tx.wait()
             console.log(JSON.stringify(tx))
@@ -263,6 +265,7 @@ async function getSignature(tokens, address) {
         const owner = await antonym.ownerOf(t);
         if(owner.toLowerCase() !== address.toLowerCase()) throw(new Error(`You are not owner of token ID #${t}`));
         const redeemed = await materia.isAntonymTokenUsed(t);
+        console.log(t, redeemed)
         if(redeemed) throw(new Error(`Token ID #${t} already used`));
         verified.push(t)
     }))
