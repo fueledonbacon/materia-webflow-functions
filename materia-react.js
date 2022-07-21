@@ -157,7 +157,10 @@ class Todo extends React.Component {
                     amount: e[4].toNumber()
                 }
             })
-            console.log(events)
+            events.map(e => {
+                if(e.tokenId === 1) this.setState({materiaMinted: e.amount})
+                if(e.tokenId === 2) this.setState({materiaPrimaMinted: e.amount})
+            })
         } catch(e) {
             this.setState({error: readError(e)})
         }
@@ -264,7 +267,7 @@ async function getSignature(tokens, address) {
     const privateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
     const signer = new ethers.Wallet(privateKey, provider);
 
-    const materiaAdd = "0x67EC7B26E5227Eb7645b40bBFEdCec5BD7701ef3";
+    const materiaAdd = "zzz";
     const antonymAdd =  "0xA0B69178DDc67E8870C39Ea8589b2A8dBf28CBD2";
 
     const materia = new ethers.Contract(
