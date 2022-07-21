@@ -245,7 +245,7 @@ async function getSignature(tokens, address) {
     const privateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
     const signer = new ethers.Wallet(privateKey, provider);
 
-    const materiaAdd = "0x71235A3dD8B0E439B76BbacC7a1Ca5B0669bbB0c";
+    const materiaAdd = "0x6D7492DD7E33D1a65494c56371cCd18Ef1d71db3";
     const antonymAdd =  "0xA0B69178DDc67E8870C39Ea8589b2A8dBf28CBD2";
 
     const materia = new ethers.Contract(
