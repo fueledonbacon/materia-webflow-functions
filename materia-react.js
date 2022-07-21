@@ -143,7 +143,8 @@ class Todo extends React.Component {
     }
 
     async onMint() {
-        const { materiaMintable, materiaPrimaMintable, materiaContract, address } = this.state;
+        const { materiaMintable, materiaPrimaMintable, materiaContract, address, fetched, minting } = this.state;
+        if(!fetched || minting) return;
         const tokens = [...materiaMintable, ...materiaPrimaMintable].sort((a, b) => a -b)
 
         try {
