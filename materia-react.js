@@ -9,7 +9,7 @@ class Todo extends React.Component {
             connected: false,
             error: null,
             networkId: 4,
-            materia: "0x06d8E01CFA2B2427fE4B7d61151eDa2C7fceB0b6",
+            materia: "0xDdEA2A484C2719201CFB73c98a23672788c65Eb6",
             antonym: "0xB2619C5Ef3aB5cf08DF16Cca56d9Ee335634f90A",
             antonymTokenURI: "https://redemption.fueledonbacon.co/.netlify/functions/metadata-proxy?id",
             materiaContract: null,
