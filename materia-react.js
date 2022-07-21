@@ -275,10 +275,16 @@ function mockRedeemed(resources) {
 
 async function getSignature(tokens, address) {
 
-    const req = await fetch('https://redemption.fueledonbacon.co/.netlify/functions/materia-redemption', {
-        method: 'POST',
-        body: JSON.stringify({tokens, address})
-    })
-    const content = await req.json();
-    console.log(content)
+    try {
+        const req = await fetch('https://redemption.fueledonbacon.co/.netlify/functions/materia-redemption', {
+            method: 'POST',
+            body: JSON.stringify({tokens, address})
+        })
+        const content = await req.json();
+        console.log(content)
+        return content.signature
+    } catch(e) {
+        throw(e)
+    }
+    
 }
