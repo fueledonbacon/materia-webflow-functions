@@ -20,7 +20,8 @@ class Todo extends React.Component {
             materiaMintable: [],
             materiaPrimaMintable: [],
             materiaMinted: null,
-            materiaPrimaMinted: null
+            materiaPrimaMinted: null,
+            minting: false
         };
     }
 
@@ -146,7 +147,7 @@ class Todo extends React.Component {
         const tokens = [...materiaMintable, ...materiaPrimaMintable].sort((a, b) => a -b)
 
         try {
-            this.setState({fetched: false})
+            this.setState({fetched: false, minting: tue})
             const sig = await getSignature(tokens, address);
             let tx = await materiaContract.mint(tokens, sig);
             tx = await tx.wait()
@@ -162,7 +163,7 @@ class Todo extends React.Component {
                 if(e.tokenId === 2) this.setState({materiaPrimaMinted: e.amount})
             })
         } catch(e) {
-            this.setState({error: readError(e)})
+            this.setState({error: readError(e), minting: false})
         }
         
         
@@ -176,7 +177,7 @@ class Todo extends React.Component {
     }
 
     renderMintTokens() {
-        const { materiaMintable, materiaPrimaMintable, materiaMinted, materiaPrimaMinted } = this.state;
+        const { materiaMintable, materiaPrimaMintable, materiaMinted, materiaPrimaMinted, minting } = this.state;
         if(materiaMintable.length === 0 && materiaPrimaMintable.length === 0) return null
 
         return(
@@ -198,7 +199,7 @@ class Todo extends React.Component {
                     ) : null
                 }
                 {
-                    materiaPrimaMinted || materiaMinted ? null : (
+                    materiaPrimaMinted || materiaMinted || minting ? null : (
                         <a href="#" className="claim_button w-inline-block" onClick={() => this.onMint()}>
                             <div id="connect-claim" className="claim_button_text">MINT</div>
                         </a>
@@ -216,7 +217,13 @@ class Todo extends React.Component {
         return (
             <div>
                 <div>{!materiaContract && address? <div>Unable to load MateriaContract</div> : null}</div>
-                <div>{address && materiaContract && (materiaMintable.length > 0 || materiaPrimaMintable.length > 0) ? this.renderMintTokens() : fetched ? <div>No Materia To Mint</div> : null}</div>
+                <div>{address && materiaContract && (materiaMintable.length > 0 || materiaPrimaMintable.length > 0) ? 
+                    this.renderMintTokens() : 
+                    fetched ? 
+                        <div>No Materia To Mint</div> : 
+                        null
+                    }
+                </div>
                 <div>{address === null ? (
                         <div>
                             <a href="#" className="claim_button w-inline-block" onClick={() => this.onConnect()}>
