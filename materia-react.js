@@ -164,7 +164,7 @@ class Todo extends React.Component {
                 if(e.tokenId === 2) this.setState({materiaPrimaMinted: e.amount})
             })
         } catch(e) {
-            this.setState({error: readError(e), minting: false})
+            this.setState({error: readError(e), minting: false, fetched: true})
         }
         
         
