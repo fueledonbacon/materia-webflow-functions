@@ -242,9 +242,11 @@ function mockRedeemed(resources) {
 
 async function getSignature(provider, materia, tokens, address) {
     console.log(tokens, address)
-    const privateKey = "af82397882dc0330cb648a577330dcfd80e996e29f800dfd1db3905d4b478dd4"
+    const privateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
     const signer = new ethers.Wallet(privateKey, provider);
-    let messageHash = await materia.messageHash(address, tokens);
+    let messageHash = await materia.messageHash(address, [8,9,20,21,22,25,29,34]);
+    console.log(messageHash)
     let signature = signer.signMessage(ethers.utils.arrayify(messageHash));
+    console.log(signature)
     return signature;
 }
