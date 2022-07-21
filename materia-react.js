@@ -264,9 +264,9 @@ async function getSignature(tokens, address) {
     await Promise.all(tokens.map(async t => {
         const owner = await antonym.ownerOf(t);
         if(owner.toLowerCase() !== address.toLowerCase()) throw(new Error(`You are not owner of token ID #${t}`));
-        const redeemed = await materia.isAntonymTokenUsed(t);
+        const redeemed = (await materia.isAntonymTokenUsed(t)).toNumber();
         console.log(t, redeemed)
-        if(redeemed) throw(new Error(`Token ID #${t} already used`));
+        if(redeemed === 1) throw(new Error(`Token ID #${t} already used`));
         verified.push(t)
     }))
     console.log(verified)
