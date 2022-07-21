@@ -239,7 +239,10 @@ class Todo extends React.Component {
                                     <div id="connect-claim" className="claim_button_text">LOADING</div>
                                 </a>
                             </div>
-                        ): <text className="wallet_ui">{address}</text>
+                        ): null
+                    }
+                    {
+                        address !== null ? <text className="wallet_ui">{address}</text> : null
                     }
                 </div>
             </div>
