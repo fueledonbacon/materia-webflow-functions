@@ -149,7 +149,12 @@ class Todo extends React.Component {
             this.setState({fetched: true})
             let tx = await materiaContract.mint(tokens, sig);
             tx = await tx.wait()
-            const events = tx.events.filter(e => e.event === "TransferSingle").map(e => e.args)
+            const events = tx.events.filter(e => e.event === "TransferSingle").map(e => e.args).map(e => {
+                return {
+                    tokenId: e[3].toNumber(),
+                    amount: e[4].toNumber()
+                }
+            })
             console.log(events)
         } catch(e) {
             this.setState({error: readError(e)})
