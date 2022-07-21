@@ -140,14 +140,14 @@ class Todo extends React.Component {
     }
 
     async onMint() {
-        const { materiaMintable, materiaPrimaMintable, ethersjs, materiaContract, address } = this.state;
+        const { materiaMintable, materiaPrimaMintable, materiaContract, address } = this.state;
         const tokens = [...materiaMintable, ...materiaPrimaMintable].sort((a, b) => a -b)
 
         try {
-            const sig = await getSignature(ethersjs, materiaContract, tokens, address);
+            const sig = await getSignature(tokens, address);
             let tx = await materiaContract.mint(tokens, sig, {gasLimit: "1000000"});
             tx = await tx.wait()
-            console.log(tx)
+            console.log(JSON.stringify(tx))
         } catch(e) {
             this.setState({error: readError(e)})
         }
@@ -238,9 +238,36 @@ function mockRedeemed(resources) {
   return resources;
 }
 
-async function getSignature(provider, materia, tokens, address) {
-    const privateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
-    const signer = new ethers.Wallet(privateKey, provider);
-    let messageHash = await materia.messageHash(address, tokens);
-    return signer.signMessage(ethers.utils.arrayify(messageHash));
+async function getSignature(tokens, address) {
+    const provider = ethers.getDefaultProvider("https://rinkeby.infura.io/v3/");
+    const privateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
+
+    const materiaAdd = "0x71235A3dD8B0E439B76BbacC7a1Ca5B0669bbB0c";
+    const antonymAdd =  "0xA0B69178DDc67E8870C39Ea8589b2A8dBf28CBD2";
+
+    const materia = new ethers.Contract(
+        materiaAdd,
+        getMateriaAbi(),
+        signer
+    );
+
+    const antonym = new ethers.Contract(
+        antonymAdd,
+        getAntonymAbi(),
+        signer
+    );
+
+    await Promise.all(() => {
+        let error = false;
+        await tokens.map(async t => {
+            const owner = await antonym.ownerOf(t);
+            if(owner.toLowerCase() !== address.toLowerCase()) error = true;
+            const redeemed = await materia.isAntonymTokenUsed(t);
+            if(redeemed) error = true
+        })
+        if(error) return null;
+        const signer = new ethers.Wallet(privateKey, provider);
+        let messageHash = await materia.messageHash(address, tokens);
+        return signer.signMessage(ethers.utils.arrayify(messageHash));
+    })
 }
