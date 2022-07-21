@@ -277,10 +277,6 @@ async function getSignature(tokens, address) {
 
     const req = await fetch('https://redemption.fueledonbacon.co/.netlify/functions/materia-redemption', {
         method: 'POST',
-        headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-        },
         body: JSON.stringify({tokens, address})
     })
     const content = await req.json();
