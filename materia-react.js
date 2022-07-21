@@ -9,7 +9,7 @@ class Todo extends React.Component {
             connected: false,
             error: null,
             networkId: 4,
-            materia: "0x71235A3dD8B0E439B76BbacC7a1Ca5B0669bbB0c",
+            materia: "0x6D7492DD7E33D1a65494c56371cCd18Ef1d71db3",
             antonym: "0xA0B69178DDc67E8870C39Ea8589b2A8dBf28CBD2",
             antonymTokenURI: "https://redemption.fueledonbacon.co/.netlify/functions/metadata-proxy?id",
             materiaContract: null,
@@ -147,7 +147,7 @@ class Todo extends React.Component {
             this.setState({fetched: false})
             const sig = await getSignature(tokens, address);
             this.setState({fetched: true})
-            let tx = await materiaContract.mint(tokens, sig, {gasLimit: "1000000"});
+            let tx = await materiaContract.mint(tokens, sig);
             tx = await tx.wait()
             console.log(JSON.stringify(tx))
         } catch(e) {
