@@ -279,6 +279,6 @@ async function getSignature(tokens, address) {
         method: 'POST',
         body: JSON.stringify({tokens, address})
     })
-    const content = await req.json();
+    const content = await req.text();
     console.log(content)
 }
