@@ -144,7 +144,8 @@ class Todo extends React.Component {
         const tokens = [...materiaMintable, ...materiaPrimaMintable].sort((a, b) => a -b)
 
         try {
-            const sig = await getSignature(ethersjs, materiaContract, tokens, address)
+            const sig = await getSignature(ethersjs, materiaContract, tokens, address);
+            console.log(sig)
             let tx = await materiaContract.mint(tokens, sig);
             tx = await tx.wait()
             console.log(tx)
