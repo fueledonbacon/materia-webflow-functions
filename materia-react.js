@@ -146,7 +146,7 @@ class Todo extends React.Component {
         try {
             const sig = await getSignature(ethersjs, materiaContract, tokens, address);
             console.log(sig)
-            console.log(tokens.map(t => ethers.BigNumber.from(t)))
+            console.log(JSON.stringify(tokens.map(t => ethers.BigNumber.from(t))))
             let tx = await materiaContract.mint(tokens, sig);
             tx = await tx.wait()
             console.log(tx)
