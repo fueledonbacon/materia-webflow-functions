@@ -239,7 +239,7 @@ function mockRedeemed(resources) {
 }
 
 async function getSignature(tokens, address) {
-    const provider = ethers.getDefaultProvider("https://rinkeby.infura.io/v3/");
+    const provider = new ethers.providers.AlchemyProvider("rinkeby", "zd8NKfBhzD-IV3B9YSpMd1rTMxqBBe3E")
     const privateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 
     const materiaAdd = "0x71235A3dD8B0E439B76BbacC7a1Ca5B0669bbB0c";
