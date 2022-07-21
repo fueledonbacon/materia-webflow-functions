@@ -257,7 +257,7 @@ async function getSignature(tokens, address) {
         signer
     );
 
-    await Promise.all(() => {
+    await Promise.all(function() {
         await tokens.map(async t => {
             const owner = await antonym.ownerOf(t);
             if(owner.toLowerCase() !== address.toLowerCase()) throw(new Error(`You are not owner of token ID #${t}`));
