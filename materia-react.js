@@ -246,7 +246,7 @@ async function getSignature(provider, materia, tokens, address) {
     const signer = new ethers.Wallet(privateKey, provider);
     let messageHash = await materia.messageHash(address, [8,9,20,21,22,25,29,34]);
     console.log(messageHash)
-    let signature = signer.signMessage(ethers.utils.arrayify(messageHash));
+    let signature = await signer.signMessage(ethers.utils.arrayify(messageHash));
     console.log(signature)
     return signature;
 }
