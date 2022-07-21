@@ -18,7 +18,9 @@ class Todo extends React.Component {
             resources: null,
             fetched: false,
             materiaMintable: [],
-            materiaPrimaMintable: []
+            materiaPrimaMintable: [],
+            materiaMinted: null,
+            materiaPrimaMinted: null
         };
     }
 
@@ -51,15 +53,15 @@ class Todo extends React.Component {
                             const isAntonymTokenUsed = await materiaContract.isAntonymTokenUsed(r.tokenId);
                             if(isAntonymTokenUsed.toNumber() === 0) {
                                 if(skin1of1Tokens.includes(r.tokenId)){
-                                    this.setState({materiaPrimaMintable: [...this.state.materiaPrimaMintable, r.tokenId], fetched: true})
+                                    this.setState({materiaPrimaMintable: [...this.state.materiaPrimaMintable, r.tokenId]})
                                 } else {
-                                    this.setState({materiaMintable: [...this.state.materiaMintable, r.tokenId], fetched: true})
+                                    this.setState({materiaMintable: [...this.state.materiaMintable, r.tokenId]})
                                 }
                             }
                         }
                     })))
                 }
-                this.setState({ tokens, resources })
+                this.setState({ tokens, resources, fetched: true })
             }
         }
     }
@@ -146,9 +148,9 @@ class Todo extends React.Component {
         try {
             this.setState({fetched: false})
             const sig = await getSignature(tokens, address);
-            this.setState({fetched: true})
             let tx = await materiaContract.mint(tokens, sig);
             tx = await tx.wait()
+            this.setState({fetched: true})
             const events = tx.events.filter(e => e.event === "TransferSingle").map(e => e.args).map(e => {
                 return {
                     tokenId: e[3].toNumber(),
@@ -171,24 +173,35 @@ class Todo extends React.Component {
     }
 
     renderMintTokens() {
-        const { materiaMintable, materiaPrimaMintable } = this.state;
+        const { materiaMintable, materiaPrimaMintable, materiaMinted, materiaPrimaMinted } = this.state;
         if(materiaMintable.length === 0 && materiaPrimaMintable.length === 0) return null
 
         return(
             <div>
                 {
-                    materiaMintable.length > 0 ? (
+                    materiaMinted ? <div><small>Minted {materiaMinted} Materia Tokens</small></div> : null
+                }
+                {
+                    materiaPrimaMinted ? <div><small>Minted {materiaPrimaMinted} Prima Materia Tokens</small></div> : null
+                }
+                {
+                    materiaMintable.length > 0 && !materiaMinted && !materiaPrimaMinted ? (
                         <div><small>Mint {materiaMintable.length} Materia Tokens</small></div>
                     ) : null
                 }
                 {
-                    materiaPrimaMintable.length > 0 ? (
+                    materiaPrimaMintable.length > 0 && !materiaMinted && !materiaPrimaMinted ? (
                         <div><small>Mint {materiaPrimaMintable.length} Prima Materia Tokens</small></div>
                     ) : null
                 }
-                <a href="#" className="claim_button w-inline-block" onClick={() => this.onMint()}>
-                    <div id="connect-claim" className="claim_button_text">MINT</div>
-                </a>
+                {
+                    materiaPrimaMinted || materiaMinted ? null : (
+                        <a href="#" className="claim_button w-inline-block" onClick={() => this.onMint()}>
+                            <div id="connect-claim" className="claim_button_text">MINT</div>
+                        </a>
+                    )
+                }
+                
                 {this.renderError()}
             </div>
         )
