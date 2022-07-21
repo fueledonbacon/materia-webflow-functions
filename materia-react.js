@@ -257,15 +257,16 @@ async function getSignature(tokens, address) {
         signer
     );
 
-    await Promise.all(function() {
-        await tokens.map(async t => {
-            const owner = await antonym.ownerOf(t);
-            if(owner.toLowerCase() !== address.toLowerCase()) throw(new Error(`You are not owner of token ID #${t}`));
-            const redeemed = await materia.isAntonymTokenUsed(t);
-            if(redeemed) throw(new Error(`Token ID #${t} already used`));
-        })
-        const signer = new ethers.Wallet(privateKey, provider);
-        let messageHash = await materia.messageHash(address, tokens);
-        return signer.signMessage(ethers.utils.arrayify(messageHash));
-    })
+    const verified = []
+    await Promise.all(tokens.map(async t => {
+        const owner = await antonym.ownerOf(t);
+        if(owner.toLowerCase() !== address.toLowerCase()) throw(new Error(`You are not owner of token ID #${t}`));
+        const redeemed = await materia.isAntonymTokenUsed(t);
+        if(redeemed) throw(new Error(`Token ID #${t} already used`));
+        verified.push(t)
+    }))
+    console.log(verified)
+    const signer = new ethers.Wallet(privateKey, provider);
+    let messageHash = await materia.messageHash(address, tokens);
+    return signer.signMessage(ethers.utils.arrayify(messageHash));
 }
