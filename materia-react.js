@@ -64,7 +64,7 @@ class Todo extends React.Component {
                     })))
                 }
                 if(resources && resources.length > 0) {
-                    const found = resources.map(async r => r.attributes.map(async a => a.value === "Redeemed"))
+                    const found = resources.map(r => r.attributes.map(a => a.value === "Redeemed"))
                     console.log(found)
                 }
                 this.setState({ tokens, resources, fetched: true })
