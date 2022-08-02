@@ -244,7 +244,7 @@ class Todo extends React.Component {
                             <text className="wallet_ui">NO WALLET DETECTED</text>
                             {this.renderError()}
                         </div>
-                        ): !fetched && materiaMintable.length > 0 && materiaPrimaMintable.length > 0 ? (
+                        ): !fetched && materiaMintable.length === 0 && materiaPrimaMintable.length === 0 ? (
                             <div>
                                 <a href="#" className="claim_button w-inline-block" >
                                     <div id="connect-claim" className="claim_button_text">LOADING</div>
