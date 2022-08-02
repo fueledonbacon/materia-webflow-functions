@@ -21,8 +21,7 @@ class Todo extends React.Component {
             materiaPrimaMintable: [],
             materiaMinted: null,
             materiaPrimaMinted: null,
-            minting: false,
-            toMint: null
+            minting: false
         };
     }
 
@@ -63,15 +62,7 @@ class Todo extends React.Component {
                         }
                     })))
                 }
-                if(resources && resources.length > 0) {
-                    const att = resources.map(r => r.attributes)
-                    let found = []
-                    att.map(a => {
-                       return a.map(i => found.push(i))
-                    })
-                    found = found.filter(a => a.trait_type === "STATUS" && a.value === "Redeemed")
-                    console.log(found)
-                }
+               
                 setTimeout(() => this.setState({ tokens, resources, fetched: true }), 2000);
                 
             }
@@ -224,7 +215,7 @@ class Todo extends React.Component {
     }
 
     render() {
-        const { address, materiaContract, materiaMintable, materiaPrimaMintable, fetched, toMint } = this.state;
+        const { address, materiaContract, materiaMintable, materiaPrimaMintable, fetched } = this.state;
 
         return (
             <div>
@@ -279,7 +270,7 @@ function mockRedeemed(resources) {
     if(rand === 0) rand = 1
     for(let j = 0; j < rand; j++) {
       let arrayRand = Math.floor(Math.random() * size);
-      resources[arrayRand].attributes[1].value = "epa";
+      resources[arrayRand].attributes[1].value = "Redeemed";
     }
   return resources;
 }
