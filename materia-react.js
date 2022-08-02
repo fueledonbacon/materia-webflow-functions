@@ -49,7 +49,7 @@ class Todo extends React.Component {
 
                 const skin1of1Tokens = getSkin1of1Tokens();
                 if(resources && resources.length > 0) {
-                    const found = resources.map(r => r.attributes)
+                    const found = resources.map(r => r.attributes).filter(a => a.value === "Redeemed")
                     console.log(found)
                 }
                 if (resources && resources.length > 0) {
