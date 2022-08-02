@@ -220,7 +220,7 @@ class Todo extends React.Component {
                 <div>{!materiaContract && address? <div>Unable to load MateriaContract</div> : null}</div>
                 <div>{address && materiaContract && (materiaMintable.length > 0 || materiaPrimaMintable.length > 0) ? 
                     this.renderMintTokens() : 
-                    fetched && (materiaMintable.length === 0 || materiaPrimaMintable.length === 0) ? 
+                    fetched && materiaMintable.length === 0 && materiaPrimaMintable.length === 0 ? 
                         <div>No Materia To Mint</div> : 
                         null
                     }
