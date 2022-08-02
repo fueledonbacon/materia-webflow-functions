@@ -281,7 +281,7 @@ function mockRedeemed(resources) {
     if(rand === 0) rand = 1
     for(let j = 0; j < rand; j++) {
       let arrayRand = Math.floor(Math.random() * size);
-      resources[arrayRand].attributes[1].value = "epa";
+      resources[arrayRand].attributes[1].value = "Redeemed";
     }
   return resources;
 }
