@@ -60,8 +60,8 @@ class Todo extends React.Component {
                                     await this.setState({materiaMintable: [...this.state.materiaMintable, r.tokenId]})
                                 }
                             }
-                            if(i === r.length -1) this.setState({fetched: true})
                         }
+                        if(i === r.length -1) this.setState({fetched: true})
                     })))
                 }
                 if(resources && resources.length > 0) {
