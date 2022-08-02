@@ -220,7 +220,7 @@ class Todo extends React.Component {
         const { address, materiaContract, materiaMintable, materiaPrimaMintable, fetched } = this.state;
 
         return (
-            <div>
+            <div style={{"minHeight": "150"}}>
                 <div>{!materiaContract && address? <div>Unable to load MateriaContract</div> : null}</div>
                 <div>{address && materiaContract && (materiaMintable.length > 0 || materiaPrimaMintable.length > 0) ? 
                     this.renderMintTokens() : 
