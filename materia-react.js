@@ -54,6 +54,7 @@ class Todo extends React.Component {
                         if (a.value === "Redeemed") {
                             const isAntonymTokenUsed = await materiaContract.isAntonymTokenUsed(r.tokenId);
                             if(isAntonymTokenUsed.toNumber() === 0) {
+                                this.setState({fetched: true})
                                 if(skin1of1Tokens.includes(r.tokenId)){
                                     await this.setState({materiaPrimaMintable: [...this.state.materiaPrimaMintable, r.tokenId]})
                                 } else {
@@ -61,6 +62,7 @@ class Todo extends React.Component {
                                 }
                             }
                         }
+                        console.log(i, r.length -1)
                         if(i === r.length -1) this.setState({fetched: true})
                     })))
                 }
