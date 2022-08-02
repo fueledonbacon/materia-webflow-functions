@@ -185,7 +185,16 @@ class Todo extends React.Component {
 
         return(
             <div>
+                
                 {
+                    materiaPrimaMinted || materiaMinted || minting ? null : (
+                        <a href="#" className="claim_button w-inline-block" onClick={() => this.onMint()}>
+                            <div id="connect-claim" className="claim_button_text">MINT</div>
+                        </a>
+                    )
+                }
+
+{
                     materiaMinted ? <div><small>Minted {materiaMinted} Materia Tokens</small></div> : null
                 }
                 {
@@ -200,13 +209,6 @@ class Todo extends React.Component {
                     materiaPrimaMintable.length > 0 && !materiaMinted && !materiaPrimaMinted ? (
                         <div><small>Mint {materiaPrimaMintable.length} Prima Materia Tokens</small></div>
                     ) : null
-                }
-                {
-                    materiaPrimaMinted || materiaMinted || minting ? null : (
-                        <a href="#" className="claim_button w-inline-block" onClick={() => this.onMint()}>
-                            <div id="connect-claim" className="claim_button_text">MINT</div>
-                        </a>
-                    )
                 }
                 
                 {this.renderError()}
