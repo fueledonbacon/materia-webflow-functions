@@ -21,7 +21,8 @@ class Todo extends React.Component {
             materiaPrimaMintable: [],
             materiaMinted: null,
             materiaPrimaMinted: null,
-            minting: false
+            minting: false,
+            toMint: null
         };
     }
 
@@ -48,25 +49,25 @@ class Todo extends React.Component {
                 resources = mockRedeemed(resources);
 
                 const skin1of1Tokens = getSkin1of1Tokens();
-                if(resources && resources.length > 0) {
-                    const found = resources.map(r => r.attributes).filter(a => a.value === "Redeemed")
-                    console.log(found)
-                }
                 if (resources && resources.length > 0) {
                     await Promise.all(resources.map(async r => r.attributes.map(async a => {
                         if (a.value === "Redeemed") {
                             const isAntonymTokenUsed = await materiaContract.isAntonymTokenUsed(r.tokenId);
                             if(isAntonymTokenUsed.toNumber() === 0) {
                                 if(skin1of1Tokens.includes(r.tokenId)){
-                                    this.setState({materiaPrimaMintable: [...this.state.materiaPrimaMintable, r.tokenId], fetched: true})
+                                    this.setState({materiaPrimaMintable: [...this.state.materiaPrimaMintable, r.tokenId]})
                                 } else {
-                                    this.setState({materiaMintable: [...this.state.materiaMintable, r.tokenId], fetched: true})
+                                    this.setState({materiaMintable: [...this.state.materiaMintable, r.tokenId]})
                                 }
                             }
                         }
                     })))
                 }
-                this.setState({ tokens, resources })
+                if(resources && resources.length > 0) {
+                    const found = resources.map(r => r.attributes).filter(a => a.value === "Redeemed")
+                    console.log(found)
+                }
+                this.setState({ tokens, resources, fetched: true })
             }
         }
     }
@@ -217,14 +218,14 @@ class Todo extends React.Component {
     }
 
     render() {
-        const { address, materiaContract, materiaMintable, materiaPrimaMintable, fetched } = this.state;
+        const { address, materiaContract, materiaMintable, materiaPrimaMintable, fetched, toMint } = this.state;
 
         return (
             <div>
                 <div>{!materiaContract && address? <div>Unable to load MateriaContract</div> : null}</div>
                 <div>{address && materiaContract && (materiaMintable.length > 0 || materiaPrimaMintable.length > 0) ? 
                     this.renderMintTokens() : 
-                    fetched && materiaMintable.length === 0 && materiaPrimaMintable.length === 0 ? 
+                    toMint === 0 ? 
                         <div>No Materia To Mint</div> : 
                         null
                     }
