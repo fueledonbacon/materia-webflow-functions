@@ -62,8 +62,7 @@ class Todo extends React.Component {
                                 }
                             }
                         }
-                        console.log(i === resources.length -1, i, resources.length -1)
-                        if(i === resources.length -1) this.setState({fetched: true})
+                        
                     })))
                 }
                 if(resources && resources.length > 0) {
@@ -75,7 +74,8 @@ class Todo extends React.Component {
                     found = found.filter(a => a.trait_type === "STATUS" && a.value === "Redeemed")
                     console.log(found)
                 }
-                this.setState({ tokens, resources })
+                setTimeout(this.setState({ tokens, resources, fetched: true }), 1000);
+                
             }
         }
     }
