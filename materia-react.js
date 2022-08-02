@@ -54,7 +54,6 @@ class Todo extends React.Component {
                         if (a.value === "Redeemed") {
                             const isAntonymTokenUsed = await materiaContract.isAntonymTokenUsed(r.tokenId);
                             if(isAntonymTokenUsed.toNumber() === 0) {
-                                this.setState({fetched: true})
                                 if(skin1of1Tokens.includes(r.tokenId)){
                                     await this.setState({materiaPrimaMintable: [...this.state.materiaPrimaMintable, r.tokenId]})
                                 } else {
@@ -62,7 +61,6 @@ class Todo extends React.Component {
                                 }
                             }
                         }
-                        
                     })))
                 }
                 if(resources && resources.length > 0) {
@@ -74,7 +72,7 @@ class Todo extends React.Component {
                     found = found.filter(a => a.trait_type === "STATUS" && a.value === "Redeemed")
                     console.log(found)
                 }
-                setTimeout(this.setState({ tokens, resources, fetched: true }), 1000);
+                setTimeout(() => this.setState({ tokens, resources, fetched: true }), 2000);
                 
             }
         }
