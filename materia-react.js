@@ -62,6 +62,7 @@ class Todo extends React.Component {
                                 }
                             }
                         }
+                        console.log(i === r.length -1, i, r.length -1)
                         if(i === r.length -1) this.setState({fetched: true})
                     })))
                 }
