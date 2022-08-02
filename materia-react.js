@@ -54,15 +54,15 @@ class Todo extends React.Component {
                             const isAntonymTokenUsed = await materiaContract.isAntonymTokenUsed(r.tokenId);
                             if(isAntonymTokenUsed.toNumber() === 0) {
                                 if(skin1of1Tokens.includes(r.tokenId)){
-                                    this.setState({materiaPrimaMintable: [...this.state.materiaPrimaMintable, r.tokenId]})
+                                    this.setState({materiaPrimaMintable: [...this.state.materiaPrimaMintable, r.tokenId], fetched: true})
                                 } else {
-                                    this.setState({materiaMintable: [...this.state.materiaMintable, r.tokenId]})
+                                    this.setState({materiaMintable: [...this.state.materiaMintable, r.tokenId], fetched: true})
                                 }
                             }
                         }
                     })))
                 }
-                this.setState({ tokens, resources, fetched: true })
+                this.setState({ tokens, resources })
             }
         }
     }
