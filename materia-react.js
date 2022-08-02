@@ -55,9 +55,9 @@ class Todo extends React.Component {
                             const isAntonymTokenUsed = await materiaContract.isAntonymTokenUsed(r.tokenId);
                             if(isAntonymTokenUsed.toNumber() === 0) {
                                 if(skin1of1Tokens.includes(r.tokenId)){
-                                    this.setState({materiaPrimaMintable: [...this.state.materiaPrimaMintable, r.tokenId]})
+                                    await this.setState({materiaPrimaMintable: [...this.state.materiaPrimaMintable, r.tokenId]})
                                 } else {
-                                    this.setState({materiaMintable: [...this.state.materiaMintable, r.tokenId]})
+                                    await this.setState({materiaMintable: [...this.state.materiaMintable, r.tokenId]})
                                 }
                             }
                         }
@@ -230,7 +230,7 @@ class Todo extends React.Component {
                 <div>{!materiaContract && address? <div>Unable to load MateriaContract</div> : null}</div>
                 <div>{address && materiaContract && (materiaMintable.length > 0 || materiaPrimaMintable.length > 0) ? 
                     this.renderMintTokens() : 
-                    toMint === 0 ? 
+                    fetched ? 
                         <div>No Materia To Mint</div> : 
                         null
                     }
