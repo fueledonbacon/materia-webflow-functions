@@ -48,6 +48,10 @@ class Todo extends React.Component {
                 resources = mockRedeemed(resources);
 
                 const skin1of1Tokens = getSkin1of1Tokens();
+                if(resources && resources.length > 0) {
+                    const found = resources.map(r => r.attributes)
+                    console.log(found)
+                }
                 if (resources && resources.length > 0) {
                     await Promise.all(resources.map(async r => r.attributes.map(async a => {
                         if (a.value === "Redeemed") {
@@ -268,7 +272,7 @@ function mockRedeemed(resources) {
     if(rand === 0) rand = 1
     for(let j = 0; j < rand; j++) {
       let arrayRand = Math.floor(Math.random() * size);
-      resources[arrayRand].attributes[1].value = "nope";
+      resources[arrayRand].attributes[1].value = "Redeemed";
     }
   return resources;
 }
