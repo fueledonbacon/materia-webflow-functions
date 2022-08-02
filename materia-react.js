@@ -50,7 +50,7 @@ class Todo extends React.Component {
 
                 const skin1of1Tokens = getSkin1of1Tokens();
                 if (resources && resources.length > 0) {
-                    await Promise.all(resources.map(async r => r.attributes.map(async a => {
+                    await Promise.all(resources.map(async (r, i) => r.attributes.map(async a => {
                         if (a.value === "Redeemed") {
                             const isAntonymTokenUsed = await materiaContract.isAntonymTokenUsed(r.tokenId);
                             if(isAntonymTokenUsed.toNumber() === 0) {
@@ -60,6 +60,7 @@ class Todo extends React.Component {
                                     await this.setState({materiaMintable: [...this.state.materiaMintable, r.tokenId]})
                                 }
                             }
+                            if(i === r.length -1) this.setState({fetched: true})
                         }
                     })))
                 }
@@ -72,7 +73,7 @@ class Todo extends React.Component {
                     found = found.filter(a => a.trait_type === "STATUS" && a.value === "Redeemed")
                     console.log(found)
                 }
-                this.setState({ tokens, resources, fetched: true })
+                this.setState({ tokens, resources })
             }
         }
     }
