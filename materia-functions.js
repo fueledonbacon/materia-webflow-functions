@@ -1,7 +1,7 @@
 
 function getNetwork(id) {
-    if(id === 4) return "Mainnet"
-    else return "Rinkeby"
+    if(id === 5) return "Mainnet"
+    else return "Goerli"
 }
 
 //TODO: these are not real values, these are used for testing for the meantime, 
