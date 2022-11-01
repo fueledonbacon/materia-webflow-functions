@@ -46,6 +46,7 @@ class Todo extends React.Component {
                 }))
 
                 const skin1of1Tokens = getSkin1of1Tokens();
+                console.log(resources)
                 if (resources && resources.length > 0) {
                     await Promise.all(resources.map(async (r, i) => r.attributes.map(async a => {
                         if (a.value === "Redeemed") {
