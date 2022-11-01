@@ -8,9 +8,9 @@ class Todo extends React.Component {
             signer: null,
             connected: false,
             error: null,
-            networkId: 4,
-            materia: "0x65dDF3952AEFbe94e223715caC15f5C86bAe9F5a",
-            antonym: "0xA0B69178DDc67E8870C39Ea8589b2A8dBf28CBD2",
+            networkId: 5,
+            materia: "0x2940125c96e01f19882CC7C13Eb3A0C592994365",
+            antonym: "0x1f31CAB258e28e32BFc8F4666a12f686dfD95b25",
             antonymTokenURI: "https://redemption.fueledonbacon.co/.netlify/functions/metadata-proxy?id",
             materiaContract: null,
             antonymContract: null,
@@ -44,8 +44,6 @@ class Todo extends React.Component {
                     fetchRes.tokenId = tokenId;
                     resources.push(fetchRes)
                 }))
-                //TODO: remove this function for production
-                resources = mockRedeemed(resources);
 
                 const skin1of1Tokens = getSkin1of1Tokens();
                 if (resources && resources.length > 0) {
@@ -264,17 +262,6 @@ async function fetchResource(url) {
     } catch (e) {
         console.log(e)
     }
-}
-
-function mockRedeemed(resources) {
-    const size = resources.length;
-    let rand = Math.floor(Math.random() * size);
-    if(rand === 0) rand = 1
-    for(let j = 0; j < rand; j++) {
-      let arrayRand = Math.floor(Math.random() * size);
-      resources[arrayRand].attributes[1].value = "Redeemed";
-    }
-  return resources;
 }
 
 async function getSignature(tokens, address) {
