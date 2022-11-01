@@ -45,25 +45,28 @@ class Todo extends React.Component {
                     resources.push(fetchRes)
                 }))
 
+                //TODO: remove this function for production
+                resources = mockRedeemed(resources);
+
                 const skin1of1Tokens = getSkin1of1Tokens();
                 console.log(resources)
                 if (resources && resources.length > 0) {
                     await Promise.all(resources.map(async (r, i) => r.attributes.map(async a => {
                         if (a.value === "Redeemed") {
                             const isAntonymTokenUsed = await materiaContract.isAntonymTokenUsed(r.tokenId);
-                            if(isAntonymTokenUsed.toNumber() === 0) {
-                                if(skin1of1Tokens.includes(r.tokenId)){
-                                    await this.setState({materiaPrimaMintable: [...this.state.materiaPrimaMintable, r.tokenId]})
+                            if (isAntonymTokenUsed.toNumber() === 0) {
+                                if (skin1of1Tokens.includes(r.tokenId)) {
+                                    await this.setState({ materiaPrimaMintable: [...this.state.materiaPrimaMintable, r.tokenId] })
                                 } else {
-                                    await this.setState({materiaMintable: [...this.state.materiaMintable, r.tokenId]})
+                                    await this.setState({ materiaMintable: [...this.state.materiaMintable, r.tokenId] })
                                 }
                             }
                         }
                     })))
                 }
-               
+
                 setTimeout(() => this.setState({ tokens, resources, fetched: true }), 2000);
-                
+
             }
         }
     }
@@ -145,15 +148,15 @@ class Todo extends React.Component {
 
     async onMint() {
         const { materiaMintable, materiaPrimaMintable, materiaContract, address, fetched, minting } = this.state;
-        if(!fetched || minting) return;
-        const tokens = [...materiaMintable, ...materiaPrimaMintable].sort((a, b) => a -b)
+        if (!fetched || minting) return;
+        const tokens = [...materiaMintable, ...materiaPrimaMintable].sort((a, b) => a - b)
 
         try {
-            this.setState({fetched: false, minting: true, error: null})
+            this.setState({ fetched: false, minting: true, error: null })
             const sig = await getSignature(tokens, address);
             let tx = await materiaContract.mint(tokens, sig);
             tx = await tx.wait()
-            this.setState({fetched: true})
+            this.setState({ fetched: true })
             const events = tx.events.filter(e => e.event === "TransferSingle").map(e => e.args).map(e => {
                 return {
                     tokenId: e[3].toNumber(),
@@ -161,14 +164,14 @@ class Todo extends React.Component {
                 }
             })
             events.map(e => {
-                if(e.tokenId === 1) this.setState({materiaMinted: e.amount})
-                if(e.tokenId === 2) this.setState({materiaPrimaMinted: e.amount})
+                if (e.tokenId === 1) this.setState({ materiaMinted: e.amount })
+                if (e.tokenId === 2) this.setState({ materiaPrimaMinted: e.amount })
             })
-        } catch(e) {
-            this.setState({error: readError(e), minting: false, fetched: true})
+        } catch (e) {
+            this.setState({ error: readError(e), minting: false, fetched: true })
         }
-        
-        
+
+
     }
 
     renderError() {
@@ -180,11 +183,11 @@ class Todo extends React.Component {
 
     renderMintTokens() {
         const { materiaMintable, materiaPrimaMintable, materiaMinted, materiaPrimaMinted, minting } = this.state;
-        if(materiaMintable.length === 0 && materiaPrimaMintable.length === 0) return null
+        if (materiaMintable.length === 0 && materiaPrimaMintable.length === 0) return null
 
-        return(
+        return (
             <div>
-                
+
                 {
                     materiaPrimaMinted || materiaMinted || minting ? null : (
                         <a href="#" className="claim_button w-inline-block" onClick={() => this.onMint()}>
@@ -193,7 +196,7 @@ class Todo extends React.Component {
                     )
                 }
 
-{
+                {
                     materiaMinted ? <div><small>Minted {materiaMinted} Materia Tokens</small></div> : null
                 }
                 {
@@ -209,7 +212,7 @@ class Todo extends React.Component {
                         <div><small>Mint {materiaPrimaMintable.length} Prima Materia Tokens</small></div>
                     ) : null
                 }
-                
+
                 {this.renderError()}
             </div>
         )
@@ -221,31 +224,31 @@ class Todo extends React.Component {
         console.log(fetched, materiaMintable.length, materiaPrimaMintable.length)
 
         return (
-            <div style={{"minHeight": "150"}}>
-                <div>{!materiaContract && address? <div>Unable to load MateriaContract</div> : null}</div>
-                <div>{address && materiaContract && (materiaMintable.length > 0 || materiaPrimaMintable.length > 0) ? 
-                    this.renderMintTokens() : 
-                    fetched ? 
-                        <div>No Materia To Mint</div> : 
+            <div style={{ "minHeight": "150" }}>
+                <div>{!materiaContract && address ? <div>Unable to load MateriaContract</div> : null}</div>
+                <div>{address && materiaContract && (materiaMintable.length > 0 || materiaPrimaMintable.length > 0) ?
+                    this.renderMintTokens() :
+                    fetched ?
+                        <div>No Materia To Mint</div> :
                         null
-                    }
+                }
                 </div>
                 <div>{address === null ? (
-                        <div>
-                            <a href="#" className="claim_button w-inline-block" onClick={() => this.onConnect()}>
-                                <div id="connect-claim" className="claim_button_text">CONNECT</div>
-                            </a>
-                            <text className="wallet_ui">NO WALLET DETECTED</text>
-                            {this.renderError()}
-                        </div>
-                        ): !fetched && materiaMintable.length === 0 && materiaPrimaMintable.length === 0 ? (
-                            <div>
-                                <a href="#" className="claim_button w-inline-block" >
-                                    <div id="connect-claim" className="claim_button_text">LOADING</div>
-                                </a>
-                            </div>
-                        ): null
-                    }
+                    <div>
+                        <a href="#" className="claim_button w-inline-block" onClick={() => this.onConnect()}>
+                            <div id="connect-claim" className="claim_button_text">CONNECT</div>
+                        </a>
+                        <text className="wallet_ui">NO WALLET DETECTED</text>
+                        {this.renderError()}
+                    </div>
+                ) : !fetched && materiaMintable.length === 0 && materiaPrimaMintable.length === 0 ? (
+                    <div>
+                        <a href="#" className="claim_button w-inline-block" >
+                            <div id="connect-claim" className="claim_button_text">LOADING</div>
+                        </a>
+                    </div>
+                ) : null
+                }
                     {
                         address !== null ? <text className="wallet_ui">{address}</text> : null
                     }
@@ -267,17 +270,28 @@ async function fetchResource(url) {
     }
 }
 
+function mockRedeemed(resources) {
+    const size = resources.length;
+    let rand = Math.floor(Math.random() * size);
+    if(rand === 0) rand = 1
+    for(let j = 0; j < rand; j++) {
+      let arrayRand = Math.floor(Math.random() * size);
+      resources[arrayRand].attributes[1].value = "Redeemed";
+    }
+  return resources;
+}
+
 async function getSignature(tokens, address) {
 
     try {
         const req = await fetch('https://redemption.fueledonbacon.co/.netlify/functions/materia-redemption', {
             method: 'POST',
-            body: JSON.stringify({tokens, address})
+            body: JSON.stringify({ tokens, address })
         })
         const content = await req.json();
         return content.signature
-    } catch(e) {
-        throw(e)
+    } catch (e) {
+        throw (e)
     }
-    
+
 }
