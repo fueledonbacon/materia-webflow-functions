@@ -5,6 +5,7 @@
   "main": "materia-functions.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
     "start": "webpack-dev-server --config ./webpack.config.js --mode development --progress --color --port 3000"
   },
   "repository": {
