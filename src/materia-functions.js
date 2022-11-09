@@ -8,7 +8,7 @@ export function getNetwork(id) {
 //replace to the real values when production
 export function getSkin1of1Tokens() {
   return [
-    1,  5,  10,  15,  20, 25, 30,
+    270,  397,  474,  545,  965, 1106, 1224,
    1275, 1280, 1940, 2598, 2626, 2657, 2670,
    2818, 2928, 3138, 3147, 3288, 3333, 3516,
    3681, 3760, 4297, 4336, 4501, 4509, 4513,
