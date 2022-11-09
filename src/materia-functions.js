@@ -1,12 +1,12 @@
 
-function getNetwork(id) {
+export function getNetwork(id) {
     if(id === 5) return "Mainnet"
     else return "Goerli"
 }
 
 //TODO: these are not real values, these are used for testing for the meantime, 
 //replace to the real values when production
-function getSkin1of1Tokens() {
+export function getSkin1of1Tokens() {
   return [
     1,  5,  10,  15,  20, 25, 30,
    1275, 1280, 1940, 2598, 2626, 2657, 2670,
@@ -20,7 +20,7 @@ function getSkin1of1Tokens() {
 }
 
 
-function readError(error) {
+export function readError(error) {
     try {
         let message = error.message.split('\n')[0]
         try {
@@ -38,7 +38,7 @@ function readError(error) {
     }
 }
 
-function getMateriaAbi() {
+export function getMateriaAbi() {
     return [
       {
         "inputs": [
@@ -721,7 +721,7 @@ function getMateriaAbi() {
     ]
 }
 
-function getAntonymAbi() {
+export function getAntonymAbi() {
     return [
       {
         "inputs": [],

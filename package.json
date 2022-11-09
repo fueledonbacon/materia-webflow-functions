@@ -6,7 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "start": "webpack-dev-server --config ./webpack.config.js --mode development --progress --color --port 3000"
+    "deploy": "aws s3 cp ./dist/bundle.js s3://materia-site/ --acl public-read",
+    "bd": "npm run build && npm run deploy",
+    "start": "webpack-dev-server --config ./webpack.config.js --mode development --progress --color --port 3000",
+    "webpack-dev-server": "webpack-dev-server",
+    "dev": "webpack-dev-server --mode=development"
   },
   "repository": {
     "type": "git",
@@ -19,6 +23,7 @@
   },
   "homepage": "https://github.com/fueledonbacon/materia-webflow-functions#readme",
   "dependencies": {
+    "ethers": "^5.7.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
