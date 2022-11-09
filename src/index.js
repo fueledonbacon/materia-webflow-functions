@@ -49,6 +49,7 @@ class App extends Component {
                     fetchRes.tokenId = tokenId;
                     resources.push(fetchRes)
                 }))
+               
 
                 //TODO: remove this function for production
                 // resources = mockRedeemed(resources);
@@ -56,7 +57,7 @@ class App extends Component {
                 const skin1of1Tokens = getSkin1of1Tokens();
                 if (resources && resources.length > 0) {
                     await Promise.all(resources.map(async (r, i) => r.attributes.map(async a => {
-                        if (a.value === "Redeemed") {
+                        if (a.value.toLowerCase() === "redeemed") {
                             const isAntonymTokenUsed = await materiaContract.isAntonymTokenUsed(r.tokenId);
                             if (isAntonymTokenUsed.toNumber() === 0) {
                                 if (skin1of1Tokens.includes(r.tokenId)) {
@@ -68,6 +69,7 @@ class App extends Component {
                         }
                     })))
                 }
+
                 this.setState({tokens, resources})
 
 
@@ -165,6 +167,8 @@ class App extends Component {
         if (!fetched || minting) return;
         const tokens = [...materiaMintable, ...materiaPrimaMintable].sort((a, b) => a - b)
 
+        console.log(tokens)
+
         try {
             this.setState({ fetched: false, minting: true, error: null })
             const sig = await getSignature(tokens, address);
@@ -182,6 +186,7 @@ class App extends Component {
                 if (e.tokenId === 2) this.setState({ materiaPrimaMinted: e.amount })
             })
         } catch (e) {
+            
             this.setState({ error: readError(e), minting: false, fetched: true })
         }
 
