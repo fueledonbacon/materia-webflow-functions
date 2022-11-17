@@ -14,7 +14,7 @@ class App extends Component {
             connected: false,
             error: null,
             networkId: 5,
-            materia: "0x2940125c96e01f19882CC7C13Eb3A0C592994365",
+            materia: "0xb88DEdA61E82Aaf02855ad7cDF56aE29F9239121",
             antonym: "0x1f31CAB258e28e32BFc8F4666a12f686dfD95b25",
             antonymTokenURI: "https://redemption.fueledonbacon.co/.netlify/functions/metadata-proxy?id",
             materiaContract: null,
