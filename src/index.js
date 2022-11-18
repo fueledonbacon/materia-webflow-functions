@@ -49,7 +49,7 @@ class App extends Component {
                     fetchRes.tokenId = tokenId;
                     resources.push(fetchRes)
                 }))
-               
+
 
                 //TODO: remove this function for production
                 // resources = mockRedeemed(resources);
@@ -70,7 +70,7 @@ class App extends Component {
                     })))
                 }
 
-                this.setState({tokens, resources})
+                this.setState({ tokens, resources })
 
 
             }
@@ -114,11 +114,11 @@ class App extends Component {
 
     async enableWeb3() {
         const { ethereum, location } = window
-        const requiredChain = "0x"+this.state.networkId.toString(16);
-        if(ethereum.chainId !== requiredChain) {
+        const requiredChain = "0x" + this.state.networkId.toString(16);
+        if (ethereum.chainId !== requiredChain) {
             await window.ethereum.request({
                 method: 'wallet_switchEthereumChain',
-                params: [{ chainId:  requiredChain}], // chainId must be in hexadecimal numbers
+                params: [{ chainId: requiredChain }], // chainId must be in hexadecimal numbers
             });
             return
         }
@@ -186,7 +186,7 @@ class App extends Component {
                 if (e.tokenId === 2) this.setState({ materiaPrimaMinted: e.amount })
             })
         } catch (e) {
-            
+
             this.setState({ error: readError(e), minting: false, fetched: true })
         }
 
@@ -296,12 +296,12 @@ async function fetchResource(url) {
 function mockRedeemed(resources) {
     const size = resources.length;
     let rand = Math.floor(Math.random() * size);
-    if(rand === 0) rand = 1
-    for(let j = 0; j < rand; j++) {
-      let arrayRand = Math.floor(Math.random() * size);
-      resources[arrayRand].attributes[1].value = "Redeemed";
+    if (rand === 0) rand = 1
+    for (let j = 0; j < rand; j++) {
+        let arrayRand = Math.floor(Math.random() * size);
+        resources[arrayRand].attributes[1].value = "Redeemed";
     }
-  return resources;
+    return resources;
 }
 
 async function getSignature(tokens, address) {
